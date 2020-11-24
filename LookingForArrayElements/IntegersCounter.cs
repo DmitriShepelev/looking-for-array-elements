@@ -78,7 +78,7 @@ namespace LookingForArrayElements
                 throw new ArgumentOutOfRangeException(nameof(count), "startIndex + count > arrayToSearch.Length");
             }
 
-            if (elementsToSearchFor == Array.Empty<int>())
+            if (elementsToSearchFor.Length == 0)
             {
                 return 0;
             }

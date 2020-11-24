@@ -35,13 +35,13 @@ namespace LookingForArrayElements
 
             for (int x = 0; x < ranges.Length; x++)
             {
-                if (ranges[x].Length > 2)
+                if (ranges[x].Length > 0 && ranges[x].Length != 2)
                 {
                     throw new ArgumentException("Method throws ArgumentException in case the length of one of the ranges is less or greater than 2.");
                 }
             }
 
-            if (arrayToSearch == Array.Empty<decimal>() || ranges == Array.Empty<decimal[]>())
+            if (arrayToSearch.Length == 0 || ranges.Length == 0)
             {
                 return 0;
             }
@@ -53,7 +53,7 @@ namespace LookingForArrayElements
                 int row = 0;
                 do
                 {
-                    if (ranges[row] == Array.Empty<decimal>())
+                    if (ranges[row].Length == 0)
                     {
                         return cnt;
                     }
@@ -101,7 +101,7 @@ namespace LookingForArrayElements
 
             for (int i = 0; i < ranges.Length; i++)
             {
-                if (ranges[i].Length > 2)
+                if (ranges[i].Length > 0 && ranges[i].Length != 2)
                 {
                     throw new ArgumentException("Method throws ArgumentException in case the length of one of the ranges is less or greater than 2.");
                 }
