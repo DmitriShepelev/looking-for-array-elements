@@ -1,6 +1,7 @@
 ﻿using System;
 
 #pragma warning disable S2368
+#pragma warning disable CA1062
 
 namespace LookingForArrayElements
 {
@@ -15,31 +16,7 @@ namespace LookingForArrayElements
         public static int GetDecimalsCount(decimal[] arrayToSearch, decimal[][] ranges)
         {
             // #5. Implement the method using "do..while" statements.
-            if (arrayToSearch is null)
-            {
-                throw new ArgumentNullException(nameof(arrayToSearch));
-            }
-
-            if (ranges is null)
-            {
-                throw new ArgumentNullException(nameof(ranges));
-            }
-
-            foreach (decimal[] row in ranges)
-            {
-                if (row is null)
-                {
-                    throw new ArgumentNullException(nameof(ranges));
-                }
-            }
-
-            for (int x = 0; x < ranges.Length; x++)
-            {
-                if (ranges[x].Length > 0 && ranges[x].Length != 2)
-                {
-                    throw new ArgumentException("Method throws ArgumentException in case the length of one of the ranges is less or greater than 2.");
-                }
-            }
+            CheckExceptions(arrayToSearch, ranges);
 
             if (arrayToSearch.Length == 0 || ranges.Length == 0)
             {
@@ -81,6 +58,55 @@ namespace LookingForArrayElements
         public static int GetDecimalsCount(decimal[] arrayToSearch, decimal[][] ranges, int startIndex, int count)
         {
             // #6. Implement the method using "for" statement.
+            CheckExceptions(arrayToSearch, ranges, startIndex, count);
+
+            int cnt = 0;
+            for (int i = startIndex; i < startIndex + count; i++)
+            {
+                for (int j = 0; j < ranges.Length; j++)
+                {
+                    if (arrayToSearch[i] >= ranges[j][0] && arrayToSearch[i] <= ranges[j][1])
+                    {
+                        cnt++;
+                        break;
+                    }
+                }
+            }
+
+            return cnt;
+        }
+
+        private static void CheckExceptions(decimal[] arrayToSearch, decimal[][] ranges)
+        {
+            if (arrayToSearch is null)
+            {
+                throw new ArgumentNullException(nameof(arrayToSearch));
+            }
+
+            if (ranges is null)
+            {
+                throw new ArgumentNullException(nameof(ranges));
+            }
+
+            foreach (decimal[] row in ranges)
+            {
+                if (row is null)
+                {
+                    throw new ArgumentNullException(nameof(ranges));
+                }
+            }
+
+            for (int x = 0; x < ranges.Length; x++)
+            {
+                if (ranges[x].Length > 0 && ranges[x].Length != 2)
+                {
+                    throw new ArgumentException("Method throws ArgumentException in case the length of one of the ranges is less or greater than 2.");
+                }
+            }
+        }
+
+        private static void CheckExceptions(decimal[] arrayToSearch, decimal[][] ranges, int startIndex, int count)
+        {
             if (arrayToSearch is null)
             {
                 throw new ArgumentNullException(nameof(arrayToSearch));
@@ -126,21 +152,6 @@ namespace LookingForArrayElements
             {
                 throw new ArgumentOutOfRangeException($"Method throws ArgumentOutOfRangeException in case the number of elements to search is greater than the number of elements available in the array starting from the startIndex position.");
             }
-
-            int cnt = 0;
-            for (int i = startIndex; i < startIndex + count; i++)
-            {
-                for (int j = 0; j < ranges.Length; j++)
-                {
-                    if (arrayToSearch[i] >= ranges[j][0] && arrayToSearch[i] <= ranges[j][1])
-                    {
-                        cnt++;
-                        break;
-                    }
-                }
-            }
-
-            return cnt;
         }
     }
 }
